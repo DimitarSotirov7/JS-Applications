@@ -30,6 +30,13 @@ function sammyFunc() {
 
     this.get('/about', function (context) {
 
+        const userLogged = localStorage.getItem('userInfo');
+
+        if (userLogged) {
+            this.loggedIn = true;
+            this.email = JSON.parse(userLogged).email;
+        }
+
         this.loadPartials(mainPartials)
             .then(function () {
                 this.partial('./templates/about/about.hbs');
@@ -90,7 +97,7 @@ function sammyFunc() {
         const { email, password } = context.params;
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(({ user: { uid, email }}) => {
+            .then(({ user: { uid, email } }) => {
 
                 localStorage.setItem('userInfo', JSON.stringify({ email, password }));
                 this.redirect('/home');
@@ -102,6 +109,7 @@ function sammyFunc() {
 router.run('/home');
 
 function errorHandler(message) {
+
     elements.errorBox.textContent = message;
     elements.errorBox.style.display = 'block';
 
