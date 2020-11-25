@@ -15,6 +15,13 @@ function sammyFunc() {
 
     this.get('/home', function (context) {
 
+        const userLogged = localStorage.getItem('userInfo');
+
+        if (userLogged) {
+            this.loggedIn = true;
+            this.email = JSON.parse(userLogged).email;
+        }
+
         this.loadPartials(mainPartials)
             .then(function () {
                 this.partial('./templates/home/home.hbs');
@@ -53,6 +60,13 @@ function sammyFunc() {
             });
     });
 
+
+    this.get('/catalog', function (context) { });
+
+    this.get('/create', function (context) { });
+
+    this.get('/edit', function (context) { });
+
     // ---------- POST ----------
 
     this.post('/register', function (context) {
@@ -76,7 +90,7 @@ function sammyFunc() {
         const { email, password } = context.params;
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(({ user: { uid, email } }) => {
+            .then(({ user: { uid, email }}) => {
 
                 localStorage.setItem('userInfo', JSON.stringify({ email, password }));
                 this.redirect('/home');
