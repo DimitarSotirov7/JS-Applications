@@ -67,6 +67,15 @@ function sammyFunc() {
             });
     });
 
+    this.get('logout', function (context) {
+
+        firebase.auth().signOut()
+            .then(r => {
+                localStorage.removeItem('userInfo');
+                this.redirect('/home');
+            })
+            .catch(err => errorHandler(err.message));
+    });
 
     this.get('/catalog', function (context) { });
 
