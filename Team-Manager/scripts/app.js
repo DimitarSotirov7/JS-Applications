@@ -98,7 +98,25 @@ function sammyFunc() {
             });
     });
 
-    this.get('/create', function (context) { });
+    this.get('/create', function (context) {
+
+        const userLogged = localStorage.getItem('userInfo');
+
+        if (userLogged) {
+            this.loggedIn = true;
+            this.email = JSON.parse(userLogged).email;
+        }
+
+        const allPartials = Object.assign(mainPartials, {
+            'createForm': './templates/create/createForm.hbs'
+        });
+
+        this.loadPartials(allPartials)
+            .then(function (context) {
+                this.partial('./templates/create/createPage.hbs');
+            });
+
+     });
 
     this.get('/edit', function (context) { });
 
