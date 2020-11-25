@@ -150,6 +150,21 @@ function sammyFunc() {
             })
             .catch(err => errorHandler(err.message));
     });
+
+    this.post('/create', function (context) {
+
+        const { name, comment } = context.params;
+
+        firebase.firestore().collection("teams").add({ name, comment })
+        .then(function(docRef) {
+            //inbox notification...
+
+            localStorage.setItem('teamInfo', JSON.stringify({ name, comment }));
+            context.redirect('/catalog');
+        })
+        .catch(err => errorHandler(err.message));
+
+    });
 }
 
 router.run('/home');
