@@ -1,27 +1,52 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/team.css">
-    <link rel="stylesheet" type="text/css" href="css/details.css">
-    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
-    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="./node_modules/sammy/lib/sammy.js"></script>
-    <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="css/team.css">
+  <link rel="stylesheet" type="text/css" href="css/details.css">
+  <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-    <title>Team Managers App</title>
-  </head>
-  <body>
-    <div id="infoBox" class="notification" disabled></div>
-    <div id="errorBox" class="notification" disabled></div>
-    <div id="main"></div>
+  <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
+  <script src="./node_modules/sammy/lib/sammy.js"></script>
+  <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
 
-    <script type="module" src="scripts/app.js"></script>
-  </body>
+  <title>Team Managers App</title>
+</head>
+
+<body>
+  <div id="infoBox" class="notification" disabled></div>
+  <div id="errorBox" class="notification" disabled></div>
+  <div id="main"></div>
+
+  <!-- backend - firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebase/8.1.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebase/8.1.1/firebase-firestore.js"></script>
+
+  <script>
+    
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0IWoRA_KIJGfRC5KhLPD_LCJRuPTJjpg",
+      authDomain: "team-manager-7197d.firebaseapp.com",
+      databaseURL: "https://team-manager-7197d.firebaseio.com",
+      projectId: "team-manager-7197d",
+      storageBucket: "team-manager-7197d.appspot.com",
+      messagingSenderId: "829417896483",
+      appId: "1:829417896483:web:bce383f876f64dfdefcf96",
+      measurementId: "G-K30VBMG7ED"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+  </script>
+
+  <script type="module" src="scripts/app.js"></script>
+</body>
+
 </html>
