@@ -79,7 +79,7 @@ function sammyFunc() {
     });
 
     this.get('/catalog', function (context) {
-        
+
         this.hasNoTeam = true;
         const userLogged = localStorage.getItem('userInfo');
 
@@ -92,9 +92,22 @@ function sammyFunc() {
             'team': './templates/catalog/team.hbs'
         });
 
-        this.loadPartials(allPartials)
+        this.loadPartials(mainPartials)
             .then(function (context) {
-                this.partial('./templates/catalog/teamCatalog.hbs');
+
+                //teams 
+                const teams = [];
+                
+                firebase.firestore().collection("teams").get().then((data) => {
+
+                    data.forEach((record) => {
+                        const { name, comment } = record.data();
+
+                        teams.push({ name, comment });
+                    });
+                });
+
+                this.partial('./templates/catalog/teamCatalog.hbs', teams);
             });
     });
 
@@ -116,7 +129,7 @@ function sammyFunc() {
                 this.partial('./templates/create/createPage.hbs');
             });
 
-     });
+    });
 
     this.get('/edit', function (context) { });
 
@@ -156,13 +169,13 @@ function sammyFunc() {
         const { name, comment } = context.params;
 
         firebase.firestore().collection("teams").add({ name, comment })
-        .then(function(docRef) {
-            //inbox notification...
+            .then(function (docRef) {
+                //inbox notification...
 
-            localStorage.setItem('teamInfo', JSON.stringify({ name, comment }));
-            context.redirect('/catalog');
-        })
-        .catch(err => errorHandler(err.message));
+                localStorage.setItem('teamInfo', JSON.stringify({ name, comment }));
+                context.redirect('/catalog');
+            })
+            .catch(err => errorHandler(err.message));
 
     });
 }
