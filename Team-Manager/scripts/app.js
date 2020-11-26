@@ -1,5 +1,6 @@
 import elements from './htmlElements.js';
 import errorHandler from './errorHandler.js';
+import storedTeams from './getStoredTeams.js';
 
 const mainPartials = {
     'header': './templates/common/header.hbs',
@@ -80,12 +81,18 @@ function sammyFunc() {
 
     this.get('/catalog', function (context) {
 
-        this.hasNoTeam = true;
-        const userLogged = localStorage.getItem('userInfo');
+        const userLogged = JSON.parse(localStorage.getItem('userInfo'));
 
         if (userLogged) {
+
             this.loggedIn = true;
-            this.email = JSON.parse(userLogged).email;
+            this.email = userLogged.email;
+
+            if (userLogged.hasTeam) {
+                this.hasNoTeam = false;
+            } else {
+                this.hasNoTeam = true;
+            }
         }
 
         const allPartials = Object.assign(mainPartials, {
@@ -95,19 +102,8 @@ function sammyFunc() {
         this.loadPartials(mainPartials)
             .then(function (context) {
 
-                //teams 
-                const teams = [];
-                
-                firebase.firestore().collection("teams").get().then((data) => {
-
-                    data.forEach((record) => {
-                        const { name, comment } = record.data();
-
-                        teams.push({ name, comment });
-                    });
-                });
-
-                this.partial('./templates/catalog/teamCatalog.hbs', teams);
+                const teams = storedTeams;
+                this.partial('./templates/catalog/teamCatalog.hbs', { teams } );
             });
     });
 
@@ -158,7 +154,14 @@ function sammyFunc() {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(({ user: { uid, email } }) => {
 
-                localStorage.setItem('userInfo', JSON.stringify({ email, password, uid }));
+                let hasTeam = false;
+                if (storedTeams.includes(t => t.creator === email)) {
+                    hasTeam = true;
+                } else {
+                    hasTeam = false;
+                }
+
+                localStorage.setItem('userInfo', JSON.stringify({ email, password, uid, hasTeam }));
                 this.redirect('/home');
             })
             .catch(err => errorHandler(err.message));
@@ -168,15 +171,26 @@ function sammyFunc() {
 
         const { name, comment } = context.params;
 
-        firebase.firestore().collection("teams").add({ name, comment })
+        if (!name || !comment) {
+            return;
+        }
+
+        const creator = JSON.parse(localStorage.getItem('userInfo')).email;
+
+        const team = { name, comment, creator };
+
+        firebase.firestore().collection("teams").add(team)
             .then(function (docRef) {
                 //inbox notification...
 
-                localStorage.setItem('teamInfo', JSON.stringify({ name, comment }));
+                const loggedUser = JSON.parse(localStorage.getItem('userInfo'));
+                loggedUser.team = team;
+                loggedUser.hasTeam = true;
+                localStorage.setItem('userInfo', JSON.stringify(loggedUser));
+
                 context.redirect('/catalog');
             })
             .catch(err => errorHandler(err.message));
-
     });
 }
 
