@@ -1,0 +1,9 @@
+{{#if error}}
+<section class="notifications" style="display: block;">
+    <p class="notification-message" id="errorBox">{{ error.message }}</p>
+</section>
+{{else}}
+<section class="notifications" style="display: block;">
+    <p class="notification-message" id="successBox">{{ message }}</p>
+</section>
+{{/if}}

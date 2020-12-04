@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Application 2020</title>
+    <link rel="icon" type="image/png" href="../static/favicon.ico">
+    <link href="../static/css/site.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container" id="container"></div>
+
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="./node_modules/sammy/lib/sammy.js"></script>
+    <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBQffoT6X2MYseWLXJg6Brm_10UQdymbTQ",
+            authDomain: "js-app-exam-55fa7.firebaseapp.com",
+            databaseURL: "https://js-app-exam-55fa7.firebaseio.com",
+            projectId: "js-app-exam-55fa7",
+            storageBucket: "js-app-exam-55fa7.appspot.com",
+            messagingSenderId: "224631860208",
+            appId: "1:224631860208:web:d1d5a5cc92d477b04f8b35",
+            measurementId: "G-M8BTGWEL9K"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script type="module" src="./scripts/app.js"></script>
+</body>
+
+</html>
